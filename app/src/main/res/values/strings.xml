@@ -13,4 +13,6 @@
     <string name="btn_signup">Signup</string>
     <string name="username">Username</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="change_language">Change Language</string>
+    <string name="logout">Logout</string>
 </resources>

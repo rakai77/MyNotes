@@ -3,18 +3,17 @@ package com.example.mynotes.ui.authentication.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mynotes.MainActivity
 import com.example.mynotes.R
 import com.example.mynotes.data.Resource
-import com.example.mynotes.data.remote.response.LoginErrorResponse
-import com.example.mynotes.databinding.FragmentHomeBinding
+import com.example.mynotes.data.remote.response.AuthErrorResponse
 import com.example.mynotes.databinding.FragmentLoginBinding
 import com.example.mynotes.ui.authentication.AuthViewModel
 import com.google.gson.Gson
@@ -83,7 +82,6 @@ class LoginFragment : Fragment() {
                         "Login Successfully",
                         Toast.LENGTH_SHORT
                     ).show()
-
                     startActivity(Intent(requireContext(), MainActivity::class.java))
                 }
                 is Resource.Error -> {
@@ -91,13 +89,13 @@ class LoginFragment : Fragment() {
                     val errors = result.errorBody?.string()?.let { JSONObject(it).toString() }
                     val gson = Gson()
                     val jsonObject = gson.fromJson(errors, JsonObject::class.java)
-                    val errorResponse = gson.fromJson(jsonObject, LoginErrorResponse::class.java)
+                    val errorResponse = gson.fromJson(jsonObject, AuthErrorResponse::class.java)
 
-//                    Toast.makeText(
-//                        requireContext(),
-//                        errorResponse.message,
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "${errorResponse.errors} ${errorResponse.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.example.mynotes.ui.authentication
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.example.mynotes.utils.Preference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +27,8 @@ class AuthViewModel @Inject constructor(private val repo: AuthRepository, privat
     val registerState: LiveData<Resource<RegisterResponse>> = _registerState
 
     val getToken = pref.getToken()
+    val getUsername = pref.getUsername()
+    val getEmail = pref.getEmailUser()
 
     fun login(email: String, password: String) {
         repo.login(email, password).onEach { result ->
@@ -38,6 +42,7 @@ class AuthViewModel @Inject constructor(private val repo: AuthRepository, privat
                         pref.saveToken(it.accessToken.toString())
                         pref.saveUsername(it.user?.username.toString())
                         pref.saveEmailUser(it.user?.email.toString())
+                        Log.d("Check save username, token, email", "${result.data}")
                     }
                 }
                 is Resource.Error -> {
@@ -63,6 +68,12 @@ class AuthViewModel @Inject constructor(private val repo: AuthRepository, privat
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            pref.logout()
+        }
     }
 
 }

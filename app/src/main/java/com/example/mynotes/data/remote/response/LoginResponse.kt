@@ -22,12 +22,3 @@ data class User(
 	@field:SerializedName("username")
 	val username: String?
 )
-
-data class IncorrectEmail(
-
-	@field:SerializedName("message")
-	val message: String,
-
-	@field:SerializedName("errors")
-	val errors: List<Any>
-)

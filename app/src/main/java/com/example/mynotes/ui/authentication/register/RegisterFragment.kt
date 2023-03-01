@@ -2,22 +2,18 @@ package com.example.mynotes.ui.authentication.register
 
 import android.os.Bundle
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.mynotes.R
 import com.example.mynotes.data.Resource
-import com.example.mynotes.databinding.FragmentLoginBinding
 import com.example.mynotes.databinding.FragmentRegisterBinding
 import com.example.mynotes.ui.authentication.AuthViewModel
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
-import org.json.JSONObject
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
@@ -70,9 +66,6 @@ class RegisterFragment : Fragment() {
             confirmPassword.isEmpty() -> {
                 binding.edtConfirmPassword.error = "Please fill your last name."
             }
-            confirmPassword != password -> {
-                binding.edtConfirmPassword.error = "Password must be same"
-            }
             else -> form = true
         }
         return form
@@ -96,16 +89,12 @@ class RegisterFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     binding.progressbar.visibility = View.GONE
-                    val errors = result.errorBody?.string()?.let { JSONObject(it).toString() }
-                    val gson = Gson()
-                    val jsonObject = gson.fromJson(errors, JsonObject::class.java)
-//                    val errorResponse = gson.fromJson(jsonObject, ErrorResponse::class.java)
-//
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "${errorResponse.status} ${errorResponse.message}",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
+                    //TODO : Handle error response `422` not implemented yet
+                    Toast.makeText(
+                        requireContext(),
+                        "The password confirmation does not match",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
