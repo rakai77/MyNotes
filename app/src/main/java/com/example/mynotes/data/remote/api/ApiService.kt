@@ -1,11 +1,10 @@
 package com.example.mynotes.data.remote.api
 
+import com.example.mynotes.data.remote.response.DetailNotesResponse
+import com.example.mynotes.data.remote.response.ListNotesResponse
 import com.example.mynotes.data.remote.response.LoginResponse
 import com.example.mynotes.data.remote.response.RegisterResponse
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -28,5 +27,17 @@ interface ApiService {
         @Field("password_confirmation") confirmPassword: String,
     ): RegisterResponse
 
+    @GET("/diary")
+    @Headers("Accept: application/json")
+    suspend fun getListNotes(
+        @Header("Authorization") token: String,
+    ): ListNotesResponse
+
+    @GET("/diary/{diary_id}")
+    @Headers("Accept: application/json")
+    suspend fun getDetailNotes(
+        @Header("Authorization") token: String,
+        @Path("diary_id") diaryId: String?
+    ): DetailNotesResponse
 
 }

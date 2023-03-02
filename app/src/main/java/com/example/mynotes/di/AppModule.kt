@@ -7,6 +7,8 @@ import com.example.mynotes.BuildConfig
 import com.example.mynotes.data.remote.api.ApiService
 import com.example.mynotes.data.repository.auth.AuthRepository
 import com.example.mynotes.data.repository.auth.AuthRepositoryImp
+import com.example.mynotes.data.repository.notes.NotesRepository
+import com.example.mynotes.data.repository.notes.NotesRepositoryImp
 import com.example.mynotes.utils.Preference
 import com.example.mynotes.utils.dataStore
 import dagger.Module
@@ -75,6 +77,12 @@ object AppModule {
     @Provides
     fun provideAuthRepository(apiService: ApiService) : AuthRepository {
         return AuthRepositoryImp(apiService)
+    }
+
+    @Singleton
+    @Provides
+    fun provideNotesRepository(apiService: ApiService) : NotesRepository {
+        return NotesRepositoryImp(apiService)
     }
 
     @Singleton

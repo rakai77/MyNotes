@@ -15,4 +15,5 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="change_language">Change Language</string>
     <string name="logout">Logout</string>
+    <string name="empty_data">Empty Data</string>
 </resources>
