@@ -9,7 +9,7 @@ import com.example.mynotes.data.remote.response.DataItem
 import com.example.mynotes.databinding.ItemListNotesBinding
 import com.example.mynotes.utils.Helper.formattingDate
 
-class ListNotesAdapter : ListAdapter<DataItem, ListNotesAdapter.ListNoteViewHolder>(DIFF_CALLBACK) {
+class ListNotesAdapter(private val onClickItem: (String) -> Unit) : ListAdapter<DataItem, ListNotesAdapter.ListNoteViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListNoteViewHolder {
         val binding = ItemListNotesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,6 +27,10 @@ class ListNotesAdapter : ListAdapter<DataItem, ListNotesAdapter.ListNoteViewHold
                 tvTitle.text = item.title
                 tvContent.text = item.content
                 tvDateUpdated.text = item.updatedAt
+
+                itemView.setOnClickListener {
+                    onClickItem.invoke(item.id)
+                }
             }
         }
     }

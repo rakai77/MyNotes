@@ -1,5 +1,6 @@
 package com.example.mynotes.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,10 +12,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mynotes.R
 import com.example.mynotes.data.Resource
 import com.example.mynotes.databinding.FragmentHomeBinding
+import com.example.mynotes.ui.detail.DetailNoteActivity
+import com.example.mynotes.ui.detail.DetailNoteActivity.Companion.DIARY_ID
 import com.example.mynotes.ui.home.adapter.ListNotesAdapter
+import com.example.mynotes.ui.home.addnote.AddNoteActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
@@ -42,6 +48,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.fabAddNote.setOnClickListener {
+            startActivity(Intent(requireActivity(), AddNoteActivity::class.java))
+        }
 
         getToken()
         setupRecyclerView()
@@ -71,6 +81,7 @@ class HomeFragment : Fragment() {
                     binding.apply {
                         shimmerNotes.root.startShimmer()
                         shimmerNotes.root.visibility = View.VISIBLE
+                        fabAddNote.visibility = View.GONE
                         rvNotes.visibility = View.GONE
                         emptyState.root.visibility = View.GONE
                     }
@@ -81,6 +92,7 @@ class HomeFragment : Fragment() {
                             shimmerNotes.root.stopShimmer()
                             shimmerNotes.root.visibility = View.GONE
                             rvNotes.visibility = View.VISIBLE
+                            fabAddNote.visibility = View.VISIBLE
                             emptyState.root.visibility = View.GONE
                             adapter.submitList(result.data.data)
                         }
@@ -89,6 +101,7 @@ class HomeFragment : Fragment() {
                             shimmerNotes.root.stopShimmer()
                             shimmerNotes.root.visibility = View.GONE
                             rvNotes.visibility = View.GONE
+                            fabAddNote.visibility = View.GONE
                             emptyState.root.visibility = View.VISIBLE
                         }
                     }
@@ -99,6 +112,7 @@ class HomeFragment : Fragment() {
                         shimmerNotes.root.stopShimmer()
                         shimmerNotes.root.visibility = View.GONE
                         rvNotes.visibility = View.GONE
+                        fabAddNote.visibility = View.GONE
                         emptyState.root.visibility = View.GONE
                     }
                 }
@@ -108,7 +122,13 @@ class HomeFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.apply {
-            adapter = ListNotesAdapter()
+            adapter = ListNotesAdapter(
+                onClickItem = {
+                    val intent = Intent(requireContext(), DetailNoteActivity::class.java)
+                    intent.putExtra(DIARY_ID, it)
+                    startActivity(intent)
+                }
+            )
             rvNotes.adapter = adapter
             rvNotes.layoutManager = LinearLayoutManager(requireContext())
             rvNotes.setHasFixedSize(true)

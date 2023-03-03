@@ -16,4 +16,9 @@
     <string name="change_language">Change Language</string>
     <string name="logout">Logout</string>
     <string name="empty_data">Empty Data</string>
+    <string name="title">Title</string>
+    <string name="note">Note</string>
+    <string name="btn_add_notes">Add Notes</string>
+    <string name="date_created">Create at: </string>
+    <string name="data_updated">Update at: </string>
 </resources>
