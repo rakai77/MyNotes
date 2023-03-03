@@ -37,9 +37,6 @@
             android:exported="false"
             android:theme="@style/Theme.MyNotes.NoActionBar" />
         <activity
-            android:name=".ui.notes.NotesActivity"
-            android:exported="false" />
-        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.MyNotes.NoActionBar">

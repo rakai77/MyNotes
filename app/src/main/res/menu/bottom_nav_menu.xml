@@ -6,10 +6,6 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
 
-    <item
-        android:id="@+id/navigation_notes"
-        android:icon="@drawable/ic_notes"
-        android:title="@string/title_notes" />
 
     <item
         android:id="@+id/navigation_profile"
