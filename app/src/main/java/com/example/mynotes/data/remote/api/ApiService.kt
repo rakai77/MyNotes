@@ -46,4 +46,14 @@ interface ApiService {
         @Field("content") content: String,
     ): AddNotesResponse
 
+    @FormUrlEncoded
+    @PUT("/diary/{diary_id}")
+    @Headers("Accept: application/json")
+    suspend fun updateNote(
+        @Header("Authorization") token: String,
+        @Path("diary_id") diaryId: String?,
+        @Field("title") title: String,
+        @Field("content") content: String,
+    ): UpdateNoteResponse
+
 }

@@ -1,19 +1,19 @@
 package com.example.mynotes.ui.detail
 
+import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.mynotes.R
 import com.example.mynotes.data.Resource
-import com.example.mynotes.data.remote.response.DataItem
 import com.example.mynotes.data.remote.response.DetailNotesResponse
 import com.example.mynotes.databinding.ActivityDetailNoteBinding
+import com.example.mynotes.ui.detail.update.UpdateNoteActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -44,6 +44,12 @@ class DetailNoteActivity : AppCompatActivity() {
             if (id != null) {
                 diaryId = id.toString()
             }
+        }
+
+        binding.btnEditNote.setOnClickListener {
+            val intent = Intent(this@DetailNoteActivity, UpdateNoteActivity::class.java)
+            intent.putExtra(DIARY_ID, diaryId)
+            startActivity(intent)
         }
 
         initObserver()

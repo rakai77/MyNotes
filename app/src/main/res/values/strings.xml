@@ -21,4 +21,6 @@
     <string name="btn_add_notes">Add Notes</string>
     <string name="date_created">Create at: </string>
     <string name="data_updated">Update at: </string>
+    <string name="update_note">Update Note</string>
+    <string name="btn_update_notes">Update</string>
 </resources>

@@ -5,6 +5,7 @@ import com.example.mynotes.data.remote.api.ApiService
 import com.example.mynotes.data.remote.response.AddNotesResponse
 import com.example.mynotes.data.remote.response.DetailNotesResponse
 import com.example.mynotes.data.remote.response.ListNotesResponse
+import com.example.mynotes.data.remote.response.UpdateNoteResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -58,6 +59,27 @@ class NotesRepositoryImp @Inject constructor(private val apiService: ApiService)
         emit(Resource.Loading)
         try {
             val result = apiService.addNotes(token, title, content)
+            emit(Resource.Success(result))
+        } catch (t: Throwable) {
+            if (t is HttpException) {
+                when (t.code()) {
+                    400 -> emit(Resource.Error(t.message(), t.response()?.errorBody()))
+                    401 -> emit(Resource.Error(t.message(), t.response()?.errorBody()))
+                    404 -> emit(Resource.Error(t.message(), t.response()?.errorBody()))
+                    422 -> emit(Resource.Error(t.message(), t.response()?.errorBody()))
+                    500 -> emit(Resource.Error(t.message(), t.response()?.errorBody()))
+                    else -> emit(Resource.Error(null, null))
+                }
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage, null))
+        }
+    }
+
+    override fun updateNote(token: String, diaryId: String, title: String, content: String, ): Flow<Resource<UpdateNoteResponse>>  = flow {
+        emit(Resource.Loading)
+        try {
+            val result = apiService.updateNote(token, diaryId, title, content)
             emit(Resource.Success(result))
         } catch (t: Throwable) {
             if (t is HttpException) {
