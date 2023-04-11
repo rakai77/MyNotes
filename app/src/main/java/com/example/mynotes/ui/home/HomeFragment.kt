@@ -101,7 +101,7 @@ class HomeFragment : Fragment() {
                             shimmerNotes.root.stopShimmer()
                             shimmerNotes.root.visibility = View.GONE
                             rvNotes.visibility = View.GONE
-                            fabAddNote.visibility = View.GONE
+                            fabAddNote.visibility = View.VISIBLE
                             emptyState.root.visibility = View.VISIBLE
                         }
                     }
